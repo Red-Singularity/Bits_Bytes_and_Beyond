@@ -54,11 +54,11 @@ class MyWidget(QtGui.QWidget):
         self.initUI()
         
     def initUI(self): 
-        color = QtGui.QColor(255, 255, 255)
-        square = QtGui.QFrame(self)
-        square.setGeometry(170, 65, 40, 40)
-        square.setStyleSheet("QWidget { background-color: %s }" %  
-            color.name())
+        #color = QtGui.QColor(255, 255, 255)
+        #square = QtGui.QFrame(self)
+        #square.setGeometry(170, 65, 40, 40)
+        #square.setStyleSheet("QWidget { background-color: %s }" %  
+            #color.name())
         
         rate = QtGui.QSlider(QtCore.Qt.Horizontal, self)
         rate.setFocusPolicy(QtCore.Qt.NoFocus)
@@ -81,11 +81,11 @@ class MyWidget(QtGui.QWidget):
         self.label.setText('Max Count: ' + str(value))
         ledValue = blinkLED(value)
         if(ledValue == 1):
-            color.setBlue(0)
-            color.setGreen(0)
+            #color.setBlue(0)
+            #color.setGreen(0)
         else:
-            color.setBlue(255)
-            color.setGreen(255)
+            #color.setBlue(255)
+            #color.setGreen(255)
         
 
 def main():
