@@ -21,6 +21,8 @@ cxLeft = xNumPix/2
 cxRight = xNumPix/2
 cyLeft = yNumPix/2
 cyRight = yNumPix/2
+global ledMsg
+ledMsg = "LED Status: "
 
 def setRate(maxCnt):
     #this is pretty much the memAccess file, but with a check if the register(pseudo LED) is on or off
@@ -46,7 +48,7 @@ def readLED():
     mem.seek(reg)  
     fromMem = struct.unpack('l', mem.read(4))[0] 
     
-    print str(reg) + " = " + str(fromMem) 
+    #print str(reg) + " = " + str(fromMem) 
     
     mem.close()
     f.close()
@@ -79,18 +81,19 @@ class MyWidget(QtGui.QWidget):
         rate.setFocusPolicy(QtCore.Qt.NoFocus)
         rate.setGeometry(30, 40, 100, 30)
         rate.valueChanged[int].connect(self.changeValue)
-        rate.setRange(0, 50000000)
-        rate.setSingleStep(5000000)
+        rate.setRange(25000000, 100000000)
+        rate.setSingleStep(25000000)
         
         self.label = QtGui.QLabel(self)
-        self.label.setText('Max Count: ')
+        self.label.setText('Max Count: 25000000')
         self.label.setGeometry(160, 40, 160, 30)
         
         self.ledStatus = QtGui.QLabel(self)
-        self.ledStatus.setText('LED status: On')
+        #self.ledStatus.setText('LED status: On')
+        self.ledStatus.setText(ledMsg)
         self.ledStatus.setGeometry(160, 60, 160, 30)
         
-        self.setGeometry(300, 300, 280, 170)
+        self.setGeometry(300, 300, 300, 170)
         self.setWindowTitle('LED Max Count Value')
         self.show()
         
@@ -108,12 +111,14 @@ class MyWidget(QtGui.QWidget):
         #grabs value from memAccess prototype and holds
         setRate(value)
         
-    global updateLEDStatus
-    def updateLEDStatus(value):
-        if(value == 1):
-            self.ledStatus.setText('LED status: On')
-        else:
-            self.ledStatus.setText('LED status: Off')
+    def updateLEDStatus(self):
+        #print('in updateLEDStatus')
+        #print(ledMsg)
+        self.ledStatus.setText(ledMsg)
+        #if(value == 1):
+            #self.ledStatus.setText('LED status: On')
+        #else:
+            #self.ledStatus.setText('LED status: Off')
 
 class RecordVideo(QtCore.QObject):
     #image_data = QtCore.pyqtSignal(np.ndarray)
@@ -123,16 +128,21 @@ class RecordVideo(QtCore.QObject):
         self.timer = QtCore.QBasicTimer()
 
     def start_recording(self):
-        self.timer.start(250, self)
+        self.timer.start(100, self)
 
     def timerEvent(self, event):
+        global ledMsg
         if (event.timerId() != self.timer.timerId()):
             return
         if(readLED() == 1):
-            myWidget.updateLEDStatus(1)
+            ledMsg = "LED status: On"
+            #print(ledMsg)
+            myWidget.updateLEDStatus()
             #print("On")
         else:
-            myWidget.updateLEDStatus(0)
+            ledMsg = "LED status: Off"
+            #print(ledMsg)
+            myWidget.updateLEDStatus()
             #print("Off")
         #print("hello world")
 
@@ -142,7 +152,10 @@ class RecordVideo(QtCore.QObject):
 
 def main():
   app = QtGui.QApplication(sys.argv)
-  myWidget = MyWidget()
+  global myWidget
+  myWidget  = MyWidget()
+  #while 1:
+    #myWidget.updateLEDStatus()
   sys.exit(app.exec_())
 
 if __name__ == '__main__':
