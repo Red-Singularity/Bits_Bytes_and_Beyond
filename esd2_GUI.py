@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'esd2_GUI.ui'
 #
-# Created: Wed Apr 26 11:02:31 2023
+# Created: Sun Apr 30 20:57:53 2023
 #      by: PyQt4 UI code generator 4.10.4
 #
 # WARNING! All changes made in this file will be lost!
@@ -26,7 +26,7 @@ except AttributeError:
 class Ui_TabWidget(object):
     def setupUi(self, TabWidget):
         TabWidget.setObjectName(_fromUtf8("TabWidget"))
-        TabWidget.resize(973, 709)
+        TabWidget.resize(986, 709)
         self.tab = QtGui.QWidget()
         self.tab.setObjectName(_fromUtf8("tab"))
         self.gridLayout_2 = QtGui.QGridLayout(self.tab)
@@ -156,7 +156,9 @@ class Ui_TabWidget(object):
         TabWidget.addTab(self.tab1, _fromUtf8(""))
 
         self.retranslateUi(TabWidget)
-        TabWidget.setCurrentIndex(1)
+        TabWidget.setCurrentIndex(0)
+        QtCore.QObject.connect(self.pushButton, QtCore.SIGNAL(_fromUtf8("clicked()")), self.lcdNumber.update)
+        QtCore.QObject.connect(self.pushButton_2, QtCore.SIGNAL(_fromUtf8("clicked()")), self.lcdNumber.update)
         QtCore.QMetaObject.connectSlotsByName(TabWidget)
 
     def retranslateUi(self, TabWidget):

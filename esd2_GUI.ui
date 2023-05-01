@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>973</width>
+    <width>986</width>
     <height>709</height>
    </rect>
   </property>
@@ -148,12 +148,6 @@ The scatter plot below will show the accuracy of the system.</string>
           <height>520</height>
          </size>
         </property>
-        <zorder>tableWidget</zorder>
-        <zorder>tableWidget</zorder>
-        <zorder>tableWidget_2</zorder>
-        <zorder>tableWidget</zorder>
-        <zorder>tableWidget</zorder>
-        <zorder></zorder>
        </widget>
       </item>
       <item>
@@ -268,5 +262,38 @@ The scatter plot below will show the accuracy of the system.</string>
   </widget>
  </widget>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>pushButton</sender>
+   <signal>clicked()</signal>
+   <receiver>lcdNumber</receiver>
+   <slot>update()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>189</x>
+     <y>134</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>274</x>
+     <y>131</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_2</sender>
+   <signal>clicked()</signal>
+   <receiver>lcdNumber</receiver>
+   <slot>update()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>534</x>
+     <y>129</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>464</x>
+     <y>135</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>
