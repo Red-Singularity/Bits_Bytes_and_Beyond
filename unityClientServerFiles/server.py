@@ -6,23 +6,69 @@ A simple echo server
 
 import socket 
 
+ballDataX = 0 # ball data x from snickerdoodle
+ballDataY = 0 # ball data y from snickerdoodle
+led = 0 # binary signal if ball is in or out of court
+loopTime = 0 # loop time of the snickerdoodle code
+
+reset = 0 # reset buttion
+capture = 0 # capture button
+
+captureNumber = 8 # amount of images that has been captured
+accuracy = 0 # accuracy in percent of ball location
+ballDistance = 0 # distance of the ball from the camera
+
+def Create_Plot():
+    #creates the plot that is displayed as a widget
+    print("plot started")
+ 
 def main():
-    print("starting")
-    host = '192.168.1.4' 
-    port = 55002 
-    backlog = 5 
-    size = 1024 
+    print("starting server")
+    host = '192.168.1.4' # ip of the host pc on the local network
+    port = 55002 # port thart we are communicating on can be anything above 
+    backlog = 5 # specifies the number of pending connections the queue will hold.
+    size = 1024 # data in bits being sent and received
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM) 
-    s.bind((host,port)) 
-    print("waitining for connection")
-    s.listen(backlog) 
+    s.bind((host,port))
+    print("waiting for connection")
+    s.listen(backlog) # listen for a connection
+
+    # we will be relying on sending data in a specific order for it to be interpretted properly
+    # the client (snickerdoodle) will send data first then receive from the host pc
+    # data will be sent as text that is then converted back to ints or floats
+
+    # sending data order
+    # 1. receive ball x coordinate
+    # 2. receive ball y coordinates
+    # 3. receive led data (binary 1 or 0) if ball is in court
+    # 4. receive loop time
+
+    # receiving data order
+    # 1. send reset button status
+    # 2. send capture button status
+
+
     while 1: 
         client, address = s.accept() 
         print ("connection made")
-        data = client.recv(size) 
+        data = client.recv(size) # receive data from client
         if data: 
-            client.send(data) 
-        client.close()
+            print("Ball X: ", float(data))
+            client.send(data) #send data back to client as echo
+
+            data = client.recv(size) # receive data from client
+            print("Ball Y: ", float(data))
+            client.send(data) #send data back to client as echo
+
+            data = client.recv(size) # receive data from client
+            print("LED: ", int(data))
+            client.send(data) #send data back to client as echo
+
+            data = client.recv(size) # receive data from client
+            print("Loop Time: ", int(data))
+            client.send(data) #send data back to client as echo
+
+            client.close()
 
 if __name__ == "__main__": 
     main()
