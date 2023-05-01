@@ -28,10 +28,6 @@ def main():
     port = 55002 # port thart we are communicating on can be anything above 
     backlog = 5 # specifies the number of pending connections the queue will hold.
     size = 1024 # data in bits being sent and received
-    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM) 
-    s.bind((host,port))
-    print("waiting for connection")
-    s.listen(backlog) # listen for a connection
 
     # we will be relying on sending data in a specific order for it to be interpretted properly
     # the client (snickerdoodle) will send data first then receive from the host pc
@@ -49,26 +45,53 @@ def main():
 
 
     while 1: 
+        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM) 
+        s.bind((host,port))
+        print("waiting for connection")
+        s.listen(backlog) # listen for a connection
         client, address = s.accept() 
         print ("connection made")
         data = client.recv(size) # receive data from client
-        if data: 
-            print("Ball X: ", float(data))
-            client.send(data) #send data back to client as echo
+        ballDataX = float(data)
+        print("Ball X: ", ballDataX)
+        client.send(data) #send data back to client as echo
+        client.close()
 
-            data = client.recv(size) # receive data from client
-            print("Ball Y: ", float(data))
-            client.send(data) #send data back to client as echo
+        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM) 
+        s.bind((host,port))
+        print("waiting for connection")
+        s.listen(backlog) # listen for a connection
+        client, address = s.accept() 
+        print ("connection made")
+        data = client.recv(size) # receive data from client
+        ballDataY = float(data)
+        print("Ball Y: ", ballDataY)
+        client.send(data) #send data back to client as echo
+        client.close()
 
-            data = client.recv(size) # receive data from client
-            print("LED: ", int(data))
-            client.send(data) #send data back to client as echo
+        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM) 
+        s.bind((host,port))
+        print("waiting for connection")
+        s.listen(backlog) # listen for a connection
+        client, address = s.accept() 
+        print ("connection made")
+        data = client.recv(size) # receive data from client
+        led = int(data)
+        print("LED: ", led)
+        client.send(data) #send data back to client as echo
+        client.close()
 
-            data = client.recv(size) # receive data from client
-            print("Loop Time: ", int(data))
-            client.send(data) #send data back to client as echo
-
-            client.close()
+        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM) 
+        s.bind((host,port))
+        print("waiting for connection")
+        s.listen(backlog) # listen for a connection
+        client, address = s.accept() 
+        print ("connection made")
+        data = client.recv(size) # receive data from client
+        loopTime = int(data)
+        print("Loop Time: ", loopTime)
+        client.send(data) #send data back to client as echo
+        client.close()
 
 if __name__ == "__main__": 
     main()
