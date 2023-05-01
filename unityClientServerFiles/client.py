@@ -23,7 +23,7 @@ def main():
     print("starting client")
     host = '192.168.1.4' # ip of pc to connect to
     port = 55002 # port we are communicating on
-    size = 1024 # data in bits being sent and received
+    size = 2048 # data in bits being sent and received
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.connect((host,port))
 
@@ -42,25 +42,31 @@ def main():
     # 2. receive capture button status
 
     # send X
-    s.send(bytes(str(ballDataX,"utf-8")))
+    s.send(bytes(str(ballDataX), "utf-8"))
     data = s.recv(size)
     s.close() 
     print('Received:', float(data))
 
     # send Y
-    s.send(bytes(str(ballDataY, "utf-8")))
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.connect((host,port))
+    s.send(bytes(str(ballDataY), "utf-8"))
     data = s.recv(size)
     s.close() 
     print('Received:', float(data))
 
     # send led data
-    s.send(bytes(str(led,"utf-8")))
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.connect((host,port))
+    s.send(bytes(str(led),"utf-8"))
     data = s.recv(size)
     s.close() 
     print('Received:', int(data))
 
     # send loop time (ms)
-    s.send(bytes(str(ballDataY, "utf-8")))
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.connect((host,port))
+    s.send(bytes(str(loopTime), "utf-8"))
     data = s.recv(size)
     s.close()
     print('Received:', int(data))
