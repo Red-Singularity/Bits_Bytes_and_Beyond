@@ -42,25 +42,25 @@ def main():
     # 2. receive capture button status
 
     # send X
-    s.send(str(ballDataX))
+    s.send(bytes(str(ballDataX,"utf-8")))
     data = s.recv(size)
     s.close() 
     print('Received:', float(data))
 
     # send Y
-    s.send(str(ballDataY))
+    s.send(bytes(str(ballDataY, "utf-8")))
     data = s.recv(size)
     s.close() 
     print('Received:', float(data))
 
     # send led data
-    s.send(str(led))
+    s.send(bytes(str(led,"utf-8")))
     data = s.recv(size)
     s.close() 
     print('Received:', int(data))
 
     # send loop time (ms)
-    s.send(str(ballDataY))
+    s.send(bytes(str(ballDataY, "utf-8")))
     data = s.recv(size)
     s.close()
     print('Received:', int(data))
