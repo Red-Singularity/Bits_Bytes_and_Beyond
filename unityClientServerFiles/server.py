@@ -4,7 +4,12 @@
 A simple echo server 
 """ 
 
-import socket 
+import socket # for wifi communication
+import sys
+from PyQt4 import QtWidgets 
+from esd2_GUI import * # import everything from ui python file
+
+ui = Ui_TabWidget()
 
 ballDataX = 0 # ball data x from snickerdoodle
 ballDataY = 0 # ball data y from snickerdoodle
@@ -21,8 +26,16 @@ ballDistance = 0 # distance of the ball from the camera
 def Create_Plot():
     #creates the plot that is displayed as a widget
     print("plot started")
+
+def Update_UI():
+    app = QtWidgets.QApplication(sys.argv)
+    ex = Ui_TabWidget()
+    w = QtWidgets.QMainWindow()
+    ex.setupUi(w)
+    w.show()
+    sys.exit(app.exec_())
  
-def main():
+def Wifi_Comms():
     print("starting server")
     host = '192.168.1.4' # ip of the host pc on the local network
     port = 55002 # port thart we are communicating on can be anything above 
@@ -92,6 +105,12 @@ def main():
         print("Loop Time: ", loopTime)
         client.send(data) #send data back to client as echo
         client.close()
+
+def main():
+    Update_UI()
+    # Wifi_Comms()
+    # Create_Plot()
+
 
 if __name__ == "__main__": 
     main()
